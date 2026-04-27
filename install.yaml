@@ -1,0 +1,59 @@
+# infra 설치 관리 파일
+# 사용법: .\install.ps1 --ConfigFile .\install.yaml
+# enabled: false 로 개별 앱 설치 비활성화 가능
+
+installDir: C:\Users\david.jang\Projects\infra
+
+apps:
+
+  - name: elasticsearch
+    enabled: true
+    version: "9.3.0"
+    install:
+      type: zip
+      url: "https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-{version}-windows-x86_64.zip"
+      extractedDir: "elasticsearch-{version}"
+      configFiles:
+        - src: "elasticsearch.yml"
+          dst: "server/config/elasticsearch.yml"
+
+  - name: kibana
+    enabled: true
+    version: "9.3.1"
+    install:
+      type: zip
+      url: "https://artifacts.elastic.co/downloads/kibana/kibana-{version}-windows-x86_64.zip"
+      extractedDir: "kibana-{version}"
+      configFiles:
+        - src: "kibana.yml"
+          dst: "server/config/kibana.yml"
+
+  - name: filebeat
+    enabled: true
+    version: "9.3.1"
+    install:
+      type: zip
+      url: "https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-{version}-windows-x86_64.zip"
+      extractedDir: "filebeat-{version}-windows-x86_64"
+
+  - name: metricbeat
+    enabled: true
+    version: "9.3.1"
+    install:
+      type: msi
+      url: "https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-{version}-windows-x86_64.msi"
+      extractedDir: "PFiles/Elastic/Beats/{version}/metricbeat"
+
+  - name: kafka
+    enabled: true
+    version: "4.2.0"
+    install:
+      type: custom
+      script: "kafka/setup.ps1"
+
+  - name: kestra
+    enabled: true
+    version: "1.1.13"
+    install:
+      type: custom
+      script: "kestra/setup.ps1"
